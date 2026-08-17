@@ -335,6 +335,8 @@ body {
   font-size: 11px;
 }
 
+
+
 .payslip-table {
   width: 100%;
   border-collapse: collapse;
@@ -453,6 +455,7 @@ body {
 .btn-apply:hover {
   opacity: 0.9;
 }
+
 
 .carousel-arrow {
   position: absolute;
@@ -648,6 +651,19 @@ body {
   text-decoration: underline;
 }
 
+.action-select {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: var(--primary-blue-dark);
+  cursor: pointer;
+  outline: none;
+}
+
+.action-select:hover {
+  border-color: #888;
+}
+
 /* ---------- Apply leave form ---------- */
 .form-container {
   background: #ffffff;
@@ -704,21 +720,25 @@ body {
 .form-group textarea {
   resize: vertical;
 }
+
 .file-upload-box {
   background-color: var(--input-bg);
   border-radius: 6px;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
-.file-btn {
-  background-color: #222;
+
+.file-upload-box .file-btn {
   color: white;
-  padding: 12px 24px;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  font-size: 13.5px;
+  background-color: #222;
+  width: 20%;        
+  text-align: center;  
+  padding: 12px 20px; 
   cursor: pointer;
+  display: block;
 }
+
 .hidden-file-input {
   display: none;
 }

@@ -78,11 +78,34 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${application.endDate}</td>
             <td>${application.leaveType}</td>
             <td>${application.reason}</td>
-            <td><button class="btn-table-action">View</button></td>
-          `;
+            <td>
+              <select class="btn-table-action action-select" onchange="handleLeaveAction(this.value, '${application.id || ''}')">
+                <option value="" disabled selected>Actions</option>
+                <option value="view">View</option>
+                <option value="edit">Edit</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+                <option value="download">Download</option>
+              </select>
+            </td>
+          `; 
           leaveHistoryBody.appendChild(row);
         });
       }
+    }
+  }
+
+  function handleLeaveAction(action, applicationId) {
+    if (action === 'view') {
+      alert(`Viewing application: ${applicationId}`);
+    } else if (action === 'edit') {
+      alert(`Editing application: ${applicationId}`);
+    } else if (action === 'update') {
+      alert(`Updating application: ${applicationId}`);
+    } else if (action === 'delete') {
+      alert(`Deleting application: ${applicationId}`);
+    } else if (action === 'download') {
+      alert(`Downloading application: ${applicationId}`);
     }
   }
 
@@ -147,19 +170,26 @@ function initCarousel() {
   if (!track || cards.length === 0) return;
 
   let currentIndex = 0;
+  
+  // 1. Define how many cards are visible at once
+  const visibleCards = Math.min(cards.length, 4); 
+  
+  // 2. Calculate the true maximum index to prevent empty space
+  const maxIndex = Math.max(0, cards.length - visibleCards);
 
+  // 3. Generate dots ONLY for the valid scroll positions
   if (dotsContainer) {
-    cards.forEach((_, index) => {
+    for (let i = 0; i <= maxIndex; i++) {
       const dot = document.createElement("button");
       dot.classList.add("carousel-dot");
-      if (index === 0) dot.classList.add("active");
-      dot.addEventListener("click", () => goToSlide(index));
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => goToSlide(i));
       dotsContainer.appendChild(dot);
-    });
+    }
   }
 
   function updateCarousel() {
-    const offset = -currentIndex * (100 / Math.min(cards.length, 4));
+    const offset = -currentIndex * (100 / visibleCards);
     track.style.transform = `translateX(${offset}%)`;
     updateDots();
   }
@@ -172,7 +202,8 @@ function initCarousel() {
   }
 
   function goToSlide(index) {
-    currentIndex = Math.max(0, Math.min(index, cards.length - 1));
+    // 4. Use maxIndex here instead of cards.length - 1
+    currentIndex = Math.max(0, Math.min(index, maxIndex));
     updateCarousel();
   }
 
@@ -185,16 +216,19 @@ function initCarousel() {
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
-      currentIndex = Math.min(cards.length - 1, currentIndex + 1);
+      // 5. Use maxIndex here to stop the 'Next' button
+      currentIndex = Math.min(maxIndex, currentIndex + 1);
       updateCarousel();
     });
   }
 
   updateCarousel();
-};
-// const personal = JSON.parse(localStorage.getItem("personal"));
+}
+// to display the username
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-if (currentUser) {
-  document.getElementById("userName").textContent = `Welcome ${curreentuser.firstName} ${currentUser.lastName}`;
+if (currentUser){
+  const fullName = currentUser.firstName + " " + currentUser.lastName;
+
+  document.getElementById("userName").textContent =`Welcome ${fullName}` ;
 }

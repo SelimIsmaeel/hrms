@@ -1,9 +1,8 @@
-// const logo = document.getElementById("nav-logo");
-//   if (logo) {
-//     logo.addEventListener("click", () => {
-//       window.location.href = `dashboard.html`;
-//     });
-//   }
+
+if (!localStorage.getItem("currentUser")) {
+  window.location.href = "login.html";
+}
+
 // Data Management
 class DataManager {
   constructor() {
@@ -12,24 +11,47 @@ class DataManager {
   }
 
   initData() {
+    // 1. Get the currently logged-in user saved during login
+    const currentUserData = localStorage.getItem("currentUser");
+    const currentUser = currentUserData ? JSON.parse(currentUserData) : null;
+
+    // Helper: Parse name into firstName and lastName if currentUser only has a full name string
+    let defaultFirstName = "John";
+    let defaultLastName = "Adelaja";
+
+    if (currentUser) {
+      if (currentUser.firstName) {
+        defaultFirstName = currentUser.firstName;
+        defaultLastName = currentUser.lastName || "";
+      } else if (currentUser.name || currentUser.fullName) {
+        const parts = (currentUser.name || currentUser.fullName).trim().split(" ");
+        defaultFirstName = parts[0] || "";
+        defaultLastName = parts.slice(1).join(" ") || "";
+      }
+    }
+
+    // 2. Set Personal Details using logged-in user data
     if (!this.get("personal")) {
       this.set("personal", {
-        firstName: "John",
-        lastName: "Adelaja",
+        firstName: defaultFirstName,
+        lastName: defaultLastName,
         department: "Design & Marketing",
         jobTitle: "UI / UX Designer",
         jobCategory: "Full time",
       });
     }
+
+    // 3. Set Contact Details using logged-in user email
     if (!this.get("contact")) {
       this.set("contact", {
-        phone1: "",
+        phone1: currentUser?.phone || "",
         phone2: "",
-        email: "johnadelaja@gmail.com",
+        email: currentUser?.email || "johnadelaja@gmail.com",
         city: "",
         address: "Alembank, Addia ababa",
       });
     }
+
     if (!this.get("nextOfKin")) {
       this.set("nextOfKin", []);
     }
@@ -108,9 +130,9 @@ document.querySelectorAll(".menu-item").forEach((item) => {
 
 function showSection(section) {
   document
-    .querySelectorAll(".content-section")
+    .querySelectorAll(".section")
     .forEach((s) => s.classList.remove("active"));
-  document.getElementById(section).classList.add("active");
+  document.querySelector(`[data-section="${section}"]`).classList.add("active");
   loadSectionData(section);
 }
 
@@ -140,45 +162,72 @@ function loadSectionData(section) {
   }
 }
 
-// Personal Details
-function togglePersonalEdit() {
+function toggleEditPersonal() {
   const viewMode = document.getElementById("personalViewMode");
   const editMode = document.getElementById("personalEditMode");
-  const btn = event.target;
 
   if (editMode.style.display === "none") {
     const personal = dm.get("personal");
-    document.getElementById("firstName").value = personal.firstName;
-    document.getElementById("lastName").value = personal.lastName;
-    document.getElementById("department").value = personal.department;
-    document.getElementById("jobTitle").value = personal.jobTitle;
-    document.getElementById("jobCategory").value = personal.jobCategory;
+    document.getElementById("fullName").value = personal.firstName + " " + personal.lastName;
+    document.getElementById("dob").value = personal.dob || "";
+    document.getElementById("gender").value = personal.gender || "Male";
+    document.getElementById("maritalStatus").value = personal.maritalStatus || "Single";
     viewMode.style.display = "none";
     editMode.style.display = "block";
-    btn.textContent = "Cancel";
   } else {
     viewMode.style.display = "block";
     editMode.style.display = "none";
-    btn.textContent = "Edit";
   }
 }
+toggleEditPersonal()
 
 function savePersonalDetails() {
+  const fullNameInput = document.getElementById("fullName").value.trim();
+  const nameParts = fullNameInput.split(" ");
+
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "";
+  
   const personal = {
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    department: document.getElementById("department").value,
-    jobTitle: document.getElementById("jobTitle").value,
-    jobCategory: document.getElementById("jobCategory").value,
+    firstName: firstName,
+    lastName: lastName,
+    dob: document.getElementById("dob").value,
+    gender: document.getElementById("gender").value,
+    maritalStatus: document.getElementById("maritalStatus").value,
+    department: dm.get("personal").department,
+    jobTitle: dm.get("personal").jobTitle,
+    jobCategory: dm.get("personal").jobCategory,
   };
 
-  if (!personal.firstName || !personal.lastName) {
+  if (!personal.firstName) {
     showToast("Please fill in all required fields", "error");
     return;
   }
 
+  // 1. Update DataManager personal state
   dm.set("personal", personal);
+
+  // 2. Sync back to currentUser in localStorage
+  const currentUserData = localStorage.getItem("currentUser");
+  if (currentUserData) {
+    const currentUser = JSON.parse(currentUserData);
+    currentUser.firstName = firstName;
+    currentUser.lastName = lastName;
+    // Fallbacks if your app relies on 'name' or 'fullName' properties elsewhere
+    currentUser.name = `${firstName} ${lastName}`.trim();
+    currentUser.fullName = `${firstName} ${lastName}`.trim();
+
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  // 3. Update active UI elements
   updatePersonalDisplay();
+
+  const headerUserName = document.getElementById("userName");
+  if (headerUserName) {
+    headerUserName.textContent = `Welcome ${firstName} ${lastName}`.trim();
+  }
+
   document.getElementById("personalViewMode").style.display = "block";
   document.getElementById("personalEditMode").style.display = "none";
   showToast("Personal details updated successfully");
@@ -186,16 +235,13 @@ function savePersonalDetails() {
 
 function updatePersonalDisplay() {
   const personal = dm.get("personal");
-  document.getElementById("profileNameDisplay").textContent =
+  document.getElementById("profileName").textContent =
     personal.firstName + " " + personal.lastName;
   document.getElementById("deptDisplay").textContent = personal.department;
   document.getElementById("jobTitleDisplay").textContent = personal.jobTitle;
   document.getElementById("jobCategoryDisplay").textContent =
     personal.jobCategory;
-  document.getElementById("avatarInitials").textContent =
-    personal.firstName.charAt(0) + personal.lastName.charAt(0);
 }
-
 
 // Contact Details
 function loadContactDetails() {
@@ -277,33 +323,33 @@ function displayNextOfKinList() {
     const card = document.createElement("div");
     card.className = "kin-card";
     card.innerHTML = `
-                    <div class="kin-card-grid">
-                        <div class="kin-field">
-                            <div class="kin-field-label">Next of kin name</div>
-                            <div class="kin-field-value">${kin.name}</div>
-                        </div>
-                        <div class="kin-field">
-                            <div class="kin-field-label">Job / Occupation</div>
-                            <div class="kin-field-value">${kin.occupation}</div>
-                        </div>
-                        <div class="kin-field">
-                            <div class="kin-field-label">Phone Number</div>
-                            <div class="kin-field-value">${kin.phone}</div>
-                        </div>
-                        <div class="kin-field">
-                            <div class="kin-field-label">Relationship</div>
-                            <div class="kin-field-value">${kin.relationship}</div>
-                        </div>
-                    </div>
-                    <div class="kin-field">
-                        <div class="kin-field-label">Residential Address</div>
-                        <div class="kin-full-address">${kin.address}</div>
-                    </div>
-                    <div class="button-group" style="margin-top: 20px;">
-                        <button class="btn btn-primary" onclick="editNextOfKin(${kin.id})">Update</button>
-                        <button class="btn btn-danger" onclick="deleteNextOfKin(${kin.id})">Delete</button>
-                    </div>
-                `;
+      <div class="kin-card-grid">
+          <div class="kin-field">
+              <div class="kin-field-label">Next of kin name</div>
+              <div class="kin-field-value">${kin.name}</div>
+          </div>
+          <div class="kin-field">
+              <div class="kin-field-label">Job / Occupation</div>
+              <div class="kin-field-value">${kin.occupation}</div>
+          </div>
+          <div class="kin-field">
+              <div class="kin-field-label">Phone Number</div>
+              <div class="kin-field-value">${kin.phone}</div>
+          </div>
+          <div class="kin-field">
+              <div class="kin-field-label">Relationship</div>
+              <div class="kin-field-value">${kin.relationship}</div>
+          </div>
+      </div>
+      <div class="kin-field">
+          <div class="kin-field-label">Residential Address</div>
+          <div class="kin-full-address">${kin.address}</div>
+      </div>
+      <div class="button-group" style="margin-top: 20px;">
+          <button class="btn btn-primary" onclick="editNextOfKin(${kin.id})">Update</button>
+          <button class="btn btn-danger" onclick="deleteNextOfKin(${kin.id})">Delete</button>
+      </div>
+    `;
     list.appendChild(card);
   });
 }
@@ -396,17 +442,17 @@ function loadEducation() {
     const item = document.createElement("div");
     item.className = "list-item";
     item.innerHTML = `
-                    <div class="list-item-title">${edu.institution}</div>
-                    <div class="list-item-details">
-                        <strong>Course:</strong> ${edu.course} | <strong>Department:</strong> ${edu.department}<br>
-                        <strong>Location:</strong> ${edu.location}<br>
-                        <strong>Period:</strong> ${edu.startDate} to ${edu.endDate}
-                    </div>
-                    <div class="list-item-actions">
-                        <button class="btn btn-secondary" onclick="editEducation(${edu.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteEducation(${edu.id})">Delete</button>
-                    </div>
-                `;
+      <div class="list-item-title">${edu.institution}</div>
+      <div class="list-item-details">
+          <strong>Course:</strong> ${edu.course} | <strong>Department:</strong> ${edu.department}<br>
+          <strong>Location:</strong> ${edu.location}<br>
+          <strong>Period:</strong> ${edu.startDate} to ${edu.endDate}
+      </div>
+      <div class="list-item-actions">
+          <button class="btn btn-secondary" onclick="editEducation(${edu.id})">Edit</button>
+          <button class="btn btn-danger" onclick="deleteEducation(${edu.id})">Delete</button>
+      </div>
+    `;
     list.appendChild(item);
   });
 }
@@ -476,11 +522,24 @@ function closeGuarantorModal() {
   document.getElementById("guarantorModal").classList.remove("active");
 }
 
+function toggleEditGuarantor() {
+  const viewMode = document.getElementById("guarantorViewMode");
+  const editMode = document.getElementById("guarantorEditMode");
+  
+  if (editMode.style.display === "none") {
+    viewMode.style.display = "none";
+    editMode.style.display = "block";
+  } else {
+    viewMode.style.display = "block";
+    editMode.style.display = "none";
+  }
+}
+
 function saveGuarantor() {
   const guarantor = {
-    name: document.getElementById("guar-name").value,
-    job: document.getElementById("guar-job").value,
-    phone: document.getElementById("guar-phone").value,
+    name: document.getElementById("guarantorName").value,
+    job: document.getElementById("guarantorJob").value,
+    phone: document.getElementById("guarantorPhone").value,
   };
 
   if (!guarantor.name || !guarantor.phone) {
@@ -490,7 +549,7 @@ function saveGuarantor() {
 
   dm.addToArray("guarantor", guarantor);
   loadGuarantor();
-  closeGuarantorModal();
+  toggleEditGuarantor();
   showToast("Guarantor added successfully");
 }
 
@@ -509,15 +568,15 @@ function loadGuarantor() {
     const item = document.createElement("div");
     item.className = "list-item";
     item.innerHTML = `
-                    <div class="list-item-title">${guar.name}</div>
-                    <div class="list-item-details">
-                        <strong>Occupation:</strong> ${guar.job} | <strong>Phone:</strong> ${guar.phone}
-                    </div>
-                    <div class="list-item-actions">
-                        <button class="btn btn-secondary" onclick="editGuarantor(${guar.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteGuarantor(${guar.id})">Delete</button>
-                    </div>
-                `;
+      <div class="list-item-title">${guar.name}</div>
+      <div class="list-item-details">
+          <strong>Occupation:</strong> ${guar.job} | <strong>Phone:</strong> ${guar.phone}
+      </div>
+      <div class="list-item-actions">
+          <button class="btn btn-secondary" onclick="editGuarantor(${guar.id})">Edit</button>
+          <button class="btn btn-danger" onclick="deleteGuarantor(${guar.id})">Delete</button>
+      </div>
+    `;
     list.appendChild(item);
   });
 }
@@ -526,9 +585,9 @@ function editGuarantor(id) {
   const guarantors = dm.get("guarantor") || [];
   const guar = guarantors.find((g) => g.id === id);
   if (guar) {
-    document.getElementById("guar-edit-name").value = guar.name;
-    document.getElementById("guar-edit-job").value = guar.job;
-    document.getElementById("guar-edit-phone").value = guar.phone;
+    document.getElementById("guarantorName").value = guar.name;
+    document.getElementById("guarantorJob").value = guar.job;
+    document.getElementById("guarantorPhone").value = guar.phone;
     document.getElementById("editGuarantorModal").dataset.editId = id;
     document.getElementById("editGuarantorModal").classList.add("active");
   }
@@ -543,9 +602,9 @@ function updateGuarantor() {
     document.getElementById("editGuarantorModal").dataset.editId,
   );
   const updated = {
-    name: document.getElementById("guar-edit-name").value,
-    job: document.getElementById("guar-edit-job").value,
-    phone: document.getElementById("guar-edit-phone").value,
+    name: document.getElementById("guarantorName").value,
+    job: document.getElementById("guarantorJob").value,
+    phone: document.getElementById("guarantorPhone").value,
   };
 
   if (!updated.name || !updated.phone) {
@@ -568,6 +627,19 @@ function deleteGuarantor(id) {
 }
 
 // Family
+function toggleEditFamily() {
+  const viewMode = document.getElementById("familyViewMode");
+  const editMode = document.getElementById("familyEditMode");
+  
+  if (editMode.style.display === "none") {
+    viewMode.style.display = "none";
+    editMode.style.display = "block";
+  } else {
+    viewMode.style.display = "block";
+    editMode.style.display = "none";
+  }
+}
+
 function openFamilyModal() {
   document.getElementById("familyModal").classList.add("active");
   document.getElementById("fam-name").value = "";
@@ -582,10 +654,10 @@ function closeFamilyModal() {
 
 function saveFamily() {
   const family = {
-    name: document.getElementById("fam-name").value,
-    relationship: document.getElementById("fam-relationship").value,
-    phone: document.getElementById("fam-phone").value,
-    address: document.getElementById("fam-address").value,
+    name: document.getElementById("familyName").value,
+    relationship: document.getElementById("familyRelationship").value,
+    phone: document.getElementById("familyPhone").value,
+    address: document.getElementById("familyAddress").value,
   };
 
   if (!family.name || !family.relationship) {
@@ -595,7 +667,7 @@ function saveFamily() {
 
   dm.addToArray("family", family);
   loadFamily();
-  closeFamilyModal();
+  toggleEditFamily();
   showToast("Family member added successfully");
 }
 
@@ -614,16 +686,16 @@ function loadFamily() {
     const item = document.createElement("div");
     item.className = "list-item";
     item.innerHTML = `
-                    <div class="list-item-title">${member.name}</div>
-                    <div class="list-item-details">
-                        <strong>Relationship:</strong> ${member.relationship} | <strong>Phone:</strong> ${member.phone}<br>
-                        <strong>Address:</strong> ${member.address}
-                    </div>
-                    <div class="list-item-actions">
-                        <button class="btn btn-secondary" onclick="editFamily(${member.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteFamily(${member.id})">Delete</button>
-                    </div>
-                `;
+      <div class="list-item-title">${member.name}</div>
+      <div class="list-item-details">
+          <strong>Relationship:</strong> ${member.relationship} | <strong>Phone:</strong> ${member.phone}<br>
+          <strong>Address:</strong> ${member.address}
+      </div>
+      <div class="list-item-actions">
+          <button class="btn btn-secondary" onclick="editFamily(${member.id})">Edit</button>
+          <button class="btn btn-danger" onclick="deleteFamily(${member.id})">Delete</button>
+      </div>
+    `;
     list.appendChild(item);
   });
 }
@@ -632,11 +704,10 @@ function editFamily(id) {
   const family = dm.get("family") || [];
   const member = family.find((f) => f.id === id);
   if (member) {
-    document.getElementById("fam-edit-name").value = member.name;
-    document.getElementById("fam-edit-relationship").value =
-      member.relationship;
-    document.getElementById("fam-edit-phone").value = member.phone;
-    document.getElementById("fam-edit-address").value = member.address;
+    document.getElementById("familyName").value = member.name;
+    document.getElementById("familyRelationship").value = member.relationship;
+    document.getElementById("familyPhone").value = member.phone;
+    document.getElementById("familyAddress").value = member.address;
     document.getElementById("editFamilyModal").dataset.editId = id;
     document.getElementById("editFamilyModal").classList.add("active");
   }
@@ -651,10 +722,10 @@ function updateFamily() {
     document.getElementById("editFamilyModal").dataset.editId,
   );
   const updated = {
-    name: document.getElementById("fam-edit-name").value,
-    relationship: document.getElementById("fam-edit-relationship").value,
-    phone: document.getElementById("fam-edit-phone").value,
-    address: document.getElementById("fam-edit-address").value,
+    name: document.getElementById("familyName").value,
+    relationship: document.getElementById("familyRelationship").value,
+    phone: document.getElementById("familyPhone").value,
+    address: document.getElementById("familyAddress").value,
   };
 
   if (!updated.name || !updated.relationship) {
@@ -726,15 +797,15 @@ function loadFinancial() {
     const card = document.createElement("div");
     card.className = "financial-card";
     card.innerHTML = `
-                    <div class="financial-info">
-                        <div class="financial-line">${account.account} | ${account.holder}</div>
-                        <div class="financial-line">${account.bank} | ${account.type}</div>
-                    </div>
-                    <div class="list-item-actions" style="margin-left: 20px;">
-                        <button class="btn btn-secondary" onclick="editFinancial(${account.id})">Edit</button>
-                        <button class="btn btn-danger" onclick="deleteFinancial(${account.id})">Delete</button>
-                    </div>
-                `;
+      <div class="financial-info">
+          <div class="financial-line">${account.account} | ${account.holder}</div>
+          <div class="financial-line">${account.bank} | ${account.type}</div>
+      </div>
+      <div class="list-item-actions" style="margin-left: 20px;">
+          <button class="btn btn-secondary" onclick="editFinancial(${account.id})">Edit</button>
+          <button class="btn btn-danger" onclick="deleteFinancial(${account.id})">Delete</button>
+      </div>
+    `;
     list.appendChild(card);
   });
 }
@@ -809,15 +880,15 @@ function loadDocuments() {
     const item = document.createElement("div");
     item.className = "card";
     item.innerHTML = `
-                    <div class="card-header">
-                        <div class="card-title">${doc.filename}</div>
-                        <div class="card-actions">
-                            <button class="btn btn-secondary" onclick="downloadDocument(${doc.id})">Download</button>
-                            <button class="btn btn-danger" onclick="deleteDocument(${doc.id})">Delete</button>
-                        </div>
-                    </div>
-                    <div style="font-size: 13px; color: #666;">Uploaded: ${doc.date}</div>
-                `;
+      <div class="card-header">
+          <div class="card-title">${doc.filename}</div>
+          <div class="card-actions">
+              <button class="btn btn-secondary" onclick="downloadDocument(${doc.id})">Download</button>
+              <button class="btn btn-danger" onclick="deleteDocument(${doc.id})">Delete</button>
+          </div>
+      </div>
+      <div style="font-size: 13px; color: #666;">Uploaded: ${doc.date}</div>
+    `;
     list.appendChild(item);
   });
 }
