@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management Platform - Company</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="css/company.css"> -->
+   <link rel="stylesheet" href="../user_section/css/company.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="nav-center">
+      <a href="dashboard.html" class="nav-item">Dashboard</a>
+      <a href="Requests.html" class="nav-item">Requests</a>
+      <a href="Payroll.html" class="nav-item">Payroll</a>
+      <a href="company.html" class="nav-item active">Company</a>
+      <a href="extras.html" class="nav-item">Extras</a>
+    </div>
+    <div class="nav-right">
+      <div class="icon-badge">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="icon-badge green">
+        <i class="fa-regular fa-envelope"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="user-avatar">
+        <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Wrapper -->
+  <div class="container">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-card">
+      Dashboard &gt; Update Profile
+    </div>
+
+    <!-- MAIN COMPANY / PROFILE CONTENT -->
+    <div class="profile-layout">
+      
+      <!-- Left Profile Navigation Sidebar -->
+      <aside class="profile-sidebar">
+        <button class="sidebar-btn active" onclick="switchTab('personal', this)">Personal Details</button>
+        <button class="sidebar-btn" onclick="switchTab('contact', this)">Contact Details</button>
+        <button class="sidebar-btn" onclick="switchTab('next-of-kin', this)">Next of kin Details</button>
+        <button class="sidebar-btn" onclick="switchTab('education', this)">Education Qualifications</button>
+        <button class="sidebar-btn" onclick="switchTab('guarantor', this)">Guarantor Details</button>
+        <button class="sidebar-btn" onclick="switchTab('family', this)">Family Details</button>
+        <button class="sidebar-btn" onclick="switchTab('job', this)">Job Details</button>
+        <button class="sidebar-btn" onclick="switchTab('financial', this)">Financial Details</button>
+      </aside>
+
+      <!-- Right Content Area -->
+      <main class="profile-content">
+
+        <!-- 1. PERSONAL DETAILS VIEW -->
+        <section id="tab-personal" class="tab-content active">
+          <div class="profile-card">
+            <div class="edit-icon-wrapper" onclick="toggleEdit('personal-form')">
+              <i class="fa-solid fa-pen-to-square"></i>
+              <span>Edit</span>
+            </div>
+            
+            <div class="avatar-center">
+              <div class="large-avatar">
+                <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
+              </div>
+            </div>
+
+            <form id="personal-form" class="view-only-form">
+              <div class="info-group center-text">
+                <label>Employee Name</label>
+                <h2 id="display-name">Biruk Dawit</h2>
+              </div>
+
+              <div class="info-group center-text">
+                <label>Department</label>
+                <h3 id="display-dept">Design & Marketing</h3>
+              </div>
+
+              <div class="info-row">
+                <div class="info-group center-text">
+                  <label>Job Title</label>
+                  <p id="display-title">UI / UX Designer</p>
+                </div>
+
+                <div class="info-group center-text">
+                  <label>Job Category</label>
+                  <p id="display-category">Full time</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- 2. NEXT OF KIN DETAILS VIEW -->
+        <section id="tab-next-of-kin" class="tab-content">
+          <div class="profile-card form-card">
+            <form id="next-of-kin-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Next of kin name</label>
+                  <input type="text" id="kin-name" value="Samson Dawit" required>
+                </div>
+                <div class="form-group">
+                  <label>Job / Occupation</label>
+                  <input type="text" id="kin-job" value="IT Manager" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="text" id="kin-phone" value="099332212" required>
+                </div>
+                <div class="form-group">
+                  <label>Relationship</label>
+                  <select id="kin-relation">
+                    <option value="Relative" selected>Relative</option>
+                    <option value="Spouse">Spouse</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Sibling">Sibling</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label>Residential Address</label>
+                <input type="text" id="kin-address" value="Alembank, Addia ababa" required>
+              </div>
+
+              <button type="submit" class="btn-update">Update</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- 3. EDUCATION QUALIFICATIONS VIEW -->
+        <section id="tab-education" class="tab-content">
+          <div class="profile-card form-card">
+            <h3 class="card-subtitle">Academic Records / Academic Details</h3>
+            
+            <form id="education-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Name of Institution</label>
+                  <input type="text" id="edu-institution" value="Jimma university" required>
+                </div>
+                <div class="form-group">
+                  <label>Department</label>
+                  <input type="text" id="edu-dept" value="Computer Dept" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Course</label>
+                  <select id="edu-course">
+                    <option value="Computer Science" selected>Computer Science</option>
+                    <option value="Information Systems">Information Systems</option>
+                    <option value="Software Engineering">Software Engineering</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Location</label>
+                  <input type="text" id="edu-location" value="JImma, Ethiopia" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="text" id="edu-start" value="01/01/1998">
+                </div>
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="text" id="edu-end" value="01/01/2019">
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label>Description</label>
+                <textarea id="edu-desc" rows="5">• Gathering and evaluating product requirements, in collaboration with product managers and the developers
+• Illustrating design ideas using storyboards, process flows, and sitemaps.
+• Designing graphic user interface pages and elements, like menus, tabs, and widgets
+• Design wireframes, mockups, storyboards, and fully interactive prototype design</textarea>
+              </div>
+
+              <button type="submit" class="btn-update">Update</button>
+            </form>
+          </div>
+        </section>
+
+        <!-- 4. JOB DETAILS / UPLOAD DOCUMENTS VIEW -->
+        <section id="tab-job" class="tab-content">
+          <div class="profile-card form-card">
+            <h3 class="card-subtitle">Job Details / Upload Documents</h3>
+
+            <form id="documents-form">
+              <div class="upload-row">
+                <label>Upload Offer Letter</label>
+                <div class="upload-controls">
+                  <input type="text" class="upload-display-path" id="path-offer" placeholder="" readonly>
+                  <label for="file-offer" class="btn-upload">Upload</label>
+                  <input type="file" id="file-offer" class="hidden-file" onchange="handleFileSelect(this, 'path-offer')">
+                </div>
+              </div>
+
+              <div class="upload-row">
+                <label>Upload Birth Certificate</label>
+                <div class="upload-controls">
+                  <input type="text" class="upload-display-path" id="path-birth" placeholder="" readonly>
+                  <label for="file-birth" class="btn-upload">Upload</label>
+                  <input type="file" id="file-birth" class="hidden-file" onchange="handleFileSelect(this, 'path-birth')">
+                </div>
+              </div>
+
+              <div class="upload-row">
+                <label>Upload Guarantor's Form</label>
+                <div class="upload-controls">
+                  <input type="text" class="upload-display-path" id="path-guarantor" placeholder="" readonly>
+                  <label for="file-guarantor" class="btn-upload">Upload</label>
+                  <input type="file" id="file-guarantor" class="hidden-file" onchange="handleFileSelect(this, 'path-guarantor')">
+                </div>
+              </div>
+
+              <div class="upload-row">
+                <label>Upload Degree Certificate</label>
+                <div class="upload-controls">
+                  <input type="text" class="upload-display-path" id="path-degree" placeholder="" readonly>
+                  <label for="file-degree" class="btn-upload">Upload</label>
+                  <input type="file" id="file-degree" class="hidden-file" onchange="handleFileSelect(this, 'path-degree')">
+                </div>
+              </div>
+
+              <div class="center-btn-wrapper">
+                <button type="submit" class="btn-submit-docs">Upload Documents</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- GENERIC FALLBACK FOR OTHER TABS -->
+        <section id="tab-generic" class="tab-content">
+          <div class="profile-card form-card text-center">
+            <h3 id="generic-title" class="card-subtitle">Section Details</h3>
+            <p style="color: #666; margin-top: 15px;">Information for this section is kept up to date in the central HR database.</p>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script src="../user_section/js/company.js"></script>
+</body>
+</html>

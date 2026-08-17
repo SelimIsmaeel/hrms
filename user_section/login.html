@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - HR Management Platform</title>
+  <link rel="stylesheet" href="../user_section/css/login.css">
+</head>
+<body>
+  <div class="container">
+    <main class="register-section">
+      <header class="register-header">
+        <h1>Login</h1>
+        <p>Welcome back! Please enter your details.</p>
+      </header>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">E-mail Address</label>
+          <input type="email" id="email" required placeholder="name@company.com">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="••••••••">
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe"> Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-submit">Sign In</button>
+      </form>
+
+      <div class="login-text">
+        Don't have an account? <a href="/user_section/index.html">Register here.</a>
+      </div>
+    </main>
+
+    <!-- Custom Modal Overlay -->
+      <div id="customModal" class="modal-overlay">
+        <div class="modal-content">
+            <p id="modalMessage">Message goes here</p>
+            <button id="modalCloseBtn">OK</button>
+        </div>
+      </div>
+    <aside class="hero-section">
+      <div class="hero-content">
+        <h2 class="hero-title">
+          Manage all <span>HR Operations</span> from the comfort of your home.
+        </h2>
+      </div>
+
+      <div class="slider-indicators">
+        <div class="indicator active"></div>
+        <div class="indicator"></div>
+        <div class="indicator"></div>
+      </div>
+    </aside>
+  </div>
+  <!-- <script src="../user_section/js/login.js"> </script> -->
+   <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+
+  // --- Reusable Modal Function ---
+  function showModal(message, redirectUrl = null) {
+    const modal = document.getElementById("customModal");
+    const modalMessage = document.getElementById("modalMessage");
+    const closeBtn = document.getElementById("modalCloseBtn");
+
+    // Safety check to ensure modal elements exist in the HTML
+    if (!modal || !modalMessage || !closeBtn) {
+      console.error("Modal elements are missing from the HTML.");
+      alert(message); // Fallback to standard alert if custom modal is missing
+      if (redirectUrl) window.location.href = redirectUrl;
+      return;
+    }
+
+    // Set the message and show the modal
+    modalMessage.textContent = message;
+    modal.style.display = "flex";
+
+    // Handle the close button click
+    closeBtn.onclick = () => {
+      modal.style.display = "none"; // Hide modal
+
+      // If a redirect URL was provided, redirect now
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      }
+    };
+  }
+
+  // --- Login Form Submission Logic ---
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value;
+
+      // Retrieve existing users from localStorage
+      const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Find user with matching credentials
+      const matchedUser = existingUsers.find(
+        (user) => user.email.toLowerCase() === email && user.password === password
+      );
+
+      if (matchedUser) {
+        // Save currently logged-in user state
+        localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+
+        // Use custom modal for success and pass the redirect URL
+        // (Make sure "dashboard.html" matches your actual main page file name, e.g., "profile.html")
+        showModal(
+          "Login successful! Redirecting to dashboard...",
+          "dashboard.html" 
+        );
+      } else {
+        // Use custom modal for error. No redirect URL needed.
+        showModal(
+          "Invalid email or password. Please try again or create an account."
+        );
+      }
+    });
+  }
+
+  // --- Indicators Toggle Logic ---
+  const indicators = document.querySelectorAll(".indicator");
+  if (indicators.length > 0) {
+    indicators.forEach((indicator) => {
+      indicator.addEventListener("click", () => {
+        indicators.forEach((i) => i.classList.remove("active"));
+        indicator.classList.add("active");
+      });
+    });
+  }
+});
+   </script>
+</body>
+</html>

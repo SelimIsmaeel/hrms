@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management Platform - Payroll</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../user_section/css/payroll.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="nav-center">
+      <a href="dashboard.html" class="nav-item">Dashboard</a>
+      <a href="requests.html" class="nav-item">Requests</a>
+      <a href="payroll.html" class="nav-item active">Payroll</a>
+      <a href="company.html" class="nav-item">Company</a>
+      <a href="extras.html" class="nav-item">Extras</a>
+    </div>
+    <div class="nav-right">
+      <div class="icon-badge">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="icon-badge green">
+        <i class="fa-regular fa-envelope"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="user-avatar">
+        <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Wrapper -->
+  <div class="container">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-card">
+      Dashboard &gt; Payroll Overview
+    </div>
+
+    <!-- MAIN PAYROLL VIEW -->
+    <main class="view-section">
+      <div class="card-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-wallet"></i> Employee Payroll & Payslips</h2>
+
+        <!-- Payroll Summary Cards -->
+        <div class="cards-grid">
+          <div class="payroll-card">
+            <div class="circle-badge"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="card-details">
+              <h3>Net Monthly Pay</h3>
+              <div class="amount-text" id="net-pay">$4,850.00</div>
+            </div>
+          </div>
+
+          <div class="payroll-card">
+            <div class="circle-badge"><i class="fa-solid fa-receipt"></i></div>
+            <div class="card-details">
+              <h3>Total Deductions</h3>
+              <div class="amount-text" id="deductions-pay">$650.00</div>
+            </div>
+          </div>
+
+          <div class="payroll-card">
+            <div class="circle-badge"><i class="fa-solid fa-piggy-bank"></i></div>
+            <div class="card-details">
+              <h3>Gross Pay</h3>
+              <div class="amount-text" id="gross-pay">$5,500.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-bar">
+          <div class="filter-tabs">
+            <button class="tab-btn active" onclick="filterPayroll('2026', this)">2026</button>
+            <button class="tab-btn" onclick="filterPayroll('2025', this)">2025</button>
+          </div>
+          <div class="action-tools">
+            <button class="btn-filter" title="Filter"><i class="fa-solid fa-filter"></i></button>
+            <button class="btn-export" onclick="exportPayrollData()">
+              Export <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Payslips History Table -->
+        <div class="table-container">
+          <table class="payroll-table">
+            <thead>
+              <tr>
+                <th>Pay Period</th>
+                <th>Employee Name</th>
+                <th>Gross Salary</th>
+                <th>Deductions</th>
+                <th>Net Salary</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="payroll-table-body">
+              <!-- Dynamically populated from localStorage -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- PAYSLIP MODAL DETAIL VIEW -->
+  <div id="payslip-modal" class="modal-overlay hidden">
+    <div class="modal-card payslip-card">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-file-invoice-dollar"></i> Employee Payslip</h2>
+        <button class="close-btn" onclick="closePayslipModal()">&times;</button>
+      </div>
+      <div class="payslip-content" id="payslip-detail">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn-print" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Payslip</button>
+        <button class="btn-close-modal" onclick="closePayslipModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../user_section/js/payroll.js"></script>
+</body>
+</html>

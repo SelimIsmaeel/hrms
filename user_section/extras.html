@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management Platform - Extras</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="css/extras.css"> -->
+   <link rel="stylesheet" href="../user_section/css/extras.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-nav">
+    <div class="nav-center">
+      <a href="dashboard.html" class="nav-item">Dashboard</a>
+      <a href="requests.html" class="nav-item">Requests</a>
+      <a href="payroll.html" class="nav-item">Payroll</a>
+      <a href="company.html" class="nav-item">Company</a>
+      <a href="extras.html" class="nav-item active">Extras</a>
+    </div>
+    <div class="nav-right">
+      <div class="icon-badge">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="icon-badge green">
+        <i class="fa-regular fa-envelope"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="user-avatar">
+        <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Wrapper -->
+  <div class="container">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-card">
+      Dashboard &gt; Extras & Utilities
+    </div>
+
+    <!-- MAIN EXTRAS GRID -->
+    <div class="extras-grid">
+
+      <!-- 1. Company Announcements & Notices -->
+      <section class="card-wrapper announcements-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-bullhorn"></i> Company Announcements</h2>
+        <div class="announcements-list" id="announcements-container">
+          <!-- Dynamically populated from JS -->
+        </div>
+      </section>
+
+      <!-- 2. Leave Balance Calculator Tool -->
+      <section class="card-wrapper tool-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-calculator"></i> Quick Leave Estimator</h2>
+        <form id="calculator-form" class="calc-form">
+          <div class="form-group">
+            <label for="start-date-input">Start Date</label>
+            <input type="date" id="start-date-input" required>
+          </div>
+          <div class="form-group">
+            <label for="end-date-input">End Date</label>
+            <input type="date" id="end-date-input" required>
+          </div>
+          <button type="submit" class="btn-primary">Calculate Working Days</button>
+        </form>
+        <div id="calc-result" class="calc-result-box hidden">
+          <span>Estimated Business Days:</span>
+          <strong id="business-days-count">0 Days</strong>
+        </div>
+      </section>
+
+      <!-- 3. Document Templates Download Center -->
+      <section class="card-wrapper templates-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> HR Forms & Templates</h2>
+        <div class="templates-list">
+          <div class="template-item">
+            <div class="template-info">
+              <i class="fa-solid fa-file-pdf pdf-icon"></i>
+              <div>
+                <h4>Medical Leave Request Form</h4>
+                <p>PDF • 145 KB</p>
+              </div>
+            </div>
+            <button class="btn-download" onclick="downloadTemplate('Medical_Leave_Form.pdf')">
+              <i class="fa-solid fa-download"></i> Download
+            </button>
+          </div>
+
+          <div class="template-item">
+            <div class="template-info">
+              <i class="fa-solid fa-file-word word-icon"></i>
+              <div>
+                <h4>Travel Allowance Claim Form</h4>
+                <p>DOCX • 98 KB</p>
+              </div>
+            </div>
+            <button class="btn-download" onclick="downloadTemplate('Travel_Allowance_Claim.docx')">
+              <i class="fa-solid fa-download"></i> Download
+            </button>
+          </div>
+
+          <div class="template-item">
+            <div class="template-info">
+              <i class="fa-solid fa-file-excel excel-icon"></i>
+              <div>
+                <h4>Overtime Log Sheet</h4>
+                <p>XLSX • 210 KB</p>
+              </div>
+            </div>
+            <button class="btn-download" onclick="downloadTemplate('Overtime_Log_Sheet.xlsx')">
+              <i class="fa-solid fa-download"></i> Download
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Quick Support / HR Helpdesk Ticket -->
+      <section class="card-wrapper support-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-headset"></i> Support & HR Helpdesk</h2>
+        <form id="support-ticket-form">
+          <div class="form-group">
+            <label for="ticket-subject">Subject</label>
+            <input type="text" id="ticket-subject" placeholder="e.g. Payroll inquiry, Portal issue..." required>
+          </div>
+          <div class="form-group">
+            <label for="ticket-category">Category</label>
+            <select id="ticket-category">
+              <option value="General">General Inquiry</option>
+              <option value="Payroll">Payroll / Salary</option>
+              <option value="IT Support">IT & Access Support</option>
+              <option value="Leave">Leave Management</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ticket-message">Message</label>
+            <textarea id="ticket-message" rows="4" placeholder="Describe your issue..." required></textarea>
+          </div>
+          <button type="submit" class="btn-update">Submit Ticket</button>
+        </form>
+      </section>
+
+    </div>
+
+  </div>
+
+  <script src="../user_section/js/extras.js"></script>
+</body>
+</html>

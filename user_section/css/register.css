@@ -1,0 +1,251 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    "Plus Jakarta Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* --- Hero / Sidebar Section --- */
+.hero-section {
+  width: 45%;
+  background:
+    linear-gradient(135deg, rgba(16, 42, 119, 0.92), rgba(10, 25, 75, 0.95)),
+    url("../user_section/media/istockphoto-1140300365-612x612 1.png")
+      center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px 40px;
+  color: #ffffff;
+}
+
+.logo img {
+  max-width: 160px;
+  height: auto;
+}
+
+.hero-content {
+  max-width: 480px;
+  margin-top: auto;
+}
+
+.first-hr {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.hero-title {
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.hero-title span {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.slider-indicators {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.indicator {
+  width: 32px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #f59e0b;
+  width: 48px;
+}
+
+.hero-btn {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-btn button {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: opacity 0.2s ease;
+}
+
+.hero-btn button:first-child {
+  background-color: #f59e0b;
+  border: 1px solid #f59e0b;
+  color: #000000;
+}
+
+.hero-btn button:last-child {
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+.hero-btn button:hover {
+  opacity: 0.9;
+}
+
+/* --- Form Section --- */
+.register-section {
+  width: 55%;
+  padding: 60px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.register-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-bottom: 8px;
+}
+
+.register-header p {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 32px;
+}
+
+.registerForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-submit {
+  grid-column: span 2;
+  width: 100%;
+  padding: 14px;
+  background-color: #284297;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+  background-color: #1e3274;
+}
+
+.login-text {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.login-text a {
+  color: #1e3a8a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-text a:hover {
+  text-decoration: underline;
+}
+
+/* --- Media Queries (Responsiveness) --- */
+@media (max-width: 1024px) {
+  .register-section {
+    padding: 40px 40px;
+  }
+}
+
+@media (max-width: 850px) {
+  .container {
+    flex-direction: column;
+  }
+  .hero-section,
+  .register-section {
+    width: 100%;
+  }
+  .hero-section {
+    padding: 40px 24px;
+    min-height: auto;
+  }
+  .register-section {
+    padding: 40px 24px;
+  }
+  .hero-content {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .registerForm {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full-width,
+  .btn-submit {
+    grid-column: span 1;
+  }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="../user_section/css/register.css">
+</head>
+<body>
+  <div class="container">
+    <aside class="hero-section">
+      <div class="logo">
+        <img src="../user_section/media/xceltech-high-resolution-logo-transparent 1.png" alt="Company Logo">
+      </div>
+      <div class="hero-content">
+        <h3 class="first-hr">HR Management Platform</h3>
+        <div class="slider-indicators">
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+        </div>
+        <h2 class="hero-title">
+          Manage all <span>HR Operations</span> from the comfort of your home.
+        </h2>
+        <div class="hero-btn">
+          <button type="button">Learn More</button>
+          <button type="button">Our Features</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="register-section">
+      <header class="register-header">
+        <h1>Register</h1>
+        <p>Create your new account today.</p>
+      </header>
+
+      <form id="registerForm" class="registerForm">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" required placeholder="e.g. John">
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" required placeholder="e.g. Anifowose">
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail Address</label>
+          <input type="email" id="email" required placeholder="name@company.com">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" required placeholder="+234 5929 424">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Password" required minlength="6">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required minlength="6">
+        </div>
+
+        <button type="submit" class="btn-submit">Create Account</button>
+      </form>
+
+      <div class="login-text">
+        Already have an account? <a href="login.html">Sign In here.</a>
+      </div>
+    </main>
+  </div>
+
+  <script src="../user_section/js/register2.js"></script>
+</body>
+</html>

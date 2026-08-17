@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management Platform - Dashboard</title>
+  <link rel="stylesheet" href="../all.css">
+  <link rel="stylesheet" href="../user_section/css/dashboard.css">
+</head>
+
+<body>
+
+  <header class="top-nav">
+    <div class="nav-logo"><img src="/user_section/media/xceltech_blue-removebg-preview.png" alt=""> </div>
+    <div class="nav-center">
+      <button class="nav-item active">Dashboard</button>
+      <button class="nav-item">Requests</button>
+      <button class="nav-item">Payroll</button>
+      <button class="nav-item">Company</button>
+      <button class="nav-item">Extras</button>
+    </div>
+    <div class="nav-right">
+      <div class="icon-badge"><i class="fa-regular fa-bell"></i><span class="badge">13</span></div>
+      <div class="icon-badge green"><i class="fa-regular fa-envelope"></i><span class="badge">13</span></div>
+      <div class="user-avatar" id="profile-btn"><i class="fa-solid fa-user"></i></div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu"><i
+          class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="breadcrumb-card" id="breadcrumb">Dashboard</div>
+
+    <!--  VIEW: MAIN HOME DASHBOARD -->
+    <main id="view-home" class="view-section">
+      <div class="profile-banner">
+        <div class="profile-left">
+          <div class="profile-photo"><i class="fa-solid fa-user" style="color:var(--primary-blue); font-size:24px;"></i>
+          </div>
+          <div class="profile-info">
+            <!-- <h2 id="user-name">Welcome User</h2> -->
+            <h2 id="userName">Welcome User</h2>
+            <p>UI / UX Designer &amp; UX Writer</p>
+          </div>
+        </div>
+        <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
+      </div>
+
+      <div class="section-label">Quick Actions</div>
+      <div class="quick-actions" id="quickActions">
+        <div class="qa-pill" id="qa-apply-leave">Apply for Leave</div>
+        <div class="qa-pill">KPI Goals</div>
+        <div class="qa-pill">Take Appraisal</div>
+        <div class="qa-pill">View Payslip</div>
+        <div class="qa-pill" onclick="window.location.href=`profile.html#persionalViewMode`">Update Profile</div>
+        <div class="qa-pill">Events</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Available Leave Days</h3><span class="kebab">&#8942;</span>
+          </div>
+          <div class="leave-item">
+            <div class="leave-row"><span class="label">Annual Leave</span><span class="value">10 of 60 day(s)</span>
+            </div>
+            <div class="track">
+              <div class="fill" style="width:16.6%"></div>
+            </div>
+          </div>
+          <div class="leave-item">
+            <div class="leave-row"><span class="label">Sick Leave</span><span class="value">0 of 10 day(s)</span></div>
+            <div class="track">
+              <div class="fill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="leave-item">
+            <div class="leave-row"><span class="label">Compassionate Leave</span><span class="value">8 of 15
+                day(s)</span></div>
+            <div class="track">
+              <div class="fill" style="width:53.3%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>To-dos</h3><span class="kebab">&#8942;</span>
+          </div>
+          <div id="todoList">
+            <div class="list-item"><span>Complete Onboarding Document Upload</span><span class="chev">&#9660;</span>
+            </div>
+            <div class="list-item"><span>Follow up on clients on documents</span><span class="chev">&#9660;</span></div>
+            <div class="list-item"><span>Design wireframes for LMS</span><span class="chev">&#9660;</span></div>
+            <div class="list-item"><span>Create case study for next IT project</span><span class="chev">&#9660;</span>
+            </div>
+            <div class="list-item"><span>Follow up on clients on documents</span><span class="chev">&#9660;</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Announcement(s)</h3><span class="kebab">&#8942;</span>
+          </div>
+          <div id="annList">
+            <div class="list-item"><span>Welcome saron - We have a new staff joining us</span><span
+                class="chev">&#9660;</span></div>
+            <div class="list-item"><span>Sendforth for Project Manager: Kindly gather at the meeting hall</span><span
+                class="chev">&#9660;</span></div>
+            <div class="list-item"><span>Marriage Alert</span><span class="chev">&#9660;</span></div>
+            <div class="list-item"><span>Office Space Update</span><span class="chev">&#9660;</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>April Pay slip breakdown</h3><span class="kebab">&#8942;</span>
+          </div>
+          <div class="table-scroll">
+            <table class="payslip-table">
+              <thead>
+                <tr>
+                  <th>Earnings</th>
+                  <th>Amount</th>
+                  <th>Deductions</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Basic Wage</td>
+                  <td>150,000</td>
+                  <td>-30,000</td>
+                  <td>120,000</td>
+                </tr>
+                <tr>
+                  <td>Tax</td>
+                  <td>15,000</td>
+                  <td>-3,000</td>
+                  <td>12,000</td>
+                </tr>
+                <tr>
+                  <td>Pension</td>
+                  <td>15,000</td>
+                  <td>-3,000</td>
+                  <td>12,000</td>
+                </tr>
+                <tr class="total">
+                  <td>Total Earnings</td>
+                  <td>150,000</td>
+                  <td>-36,000</td>
+                  <td>114,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="single-col">
+        <div class="card">
+          <div class="card-header">
+            <h3>Birthdays</h3><span class="kebab">&#8942;</span>
+          </div>
+          <div id="birthdayList">
+            <div class="birthday-item">
+              <div class="birthday-left"><i class="fa-regular fa-calendar cal-icon"></i><span>Biruk Kidan's Day - April
+                  25th</span></div>
+              <button class="btn-wish">Send Wishes</button>
+            </div>
+            <div class="birthday-item">
+              <div class="birthday-left"><i class="fa-regular fa-calendar cal-icon"></i><span>Biruk Kidan's Day - April
+                  25th</span></div>
+              <button class="btn-wish">Send Wishes</button>
+            </div>
+            <div class="birthday-item">
+              <div class="birthday-left"><i class="fa-regular fa-calendar cal-icon"></i><span>Biruk Kidan's Day - April
+                  25th</span></div>
+              <button class="btn-wish">Send Wishes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ VIEW: LEAVE OVERVIEW (carousel + history) ============ -->
+    <main id="view-leave-dashboard" class="view-section hidden">
+      <div class="card-wrapper">
+        <button class="btn-back" onclick="showHomeView()"><i class="fa-solid fa-arrow-left"></i> Back to
+          Dashboard</button>
+        <h2 class="section-title"><i class="fa-solid fa-book"></i> Leave Application</h2>
+
+        <div class="cards-carousel">
+          <button class="carousel-arrow prev" id="carousel-prev" aria-label="Previous"><i
+              class="fa-solid fa-chevron-left"></i></button>
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="carousel-track">
+              <div class="leave-card">
+                <div class="circle-badge">60</div>
+                <div class="card-details">
+                  <h3>Annual Leave</h3><button class="btn-apply" onclick="openLeaveForm('Annual Leave')">Apply</button>
+                </div>
+              </div>
+              <div class="leave-card">
+                <div class="circle-badge">20</div>
+                <div class="card-details">
+                  <h3>Sick Leave</h3><button class="btn-apply" onclick="openLeaveForm('Sick Leave')">Apply</button>
+                </div>
+              </div>
+              <div class="leave-card">
+                <div class="circle-badge">60</div>
+                <div class="card-details">
+                  <h3>Maternity Leave</h3><button class="btn-apply"
+                    onclick="openLeaveForm('Maternity Leave')">Apply</button>
+                </div>
+              </div>
+              <div class="leave-card">
+                <div class="circle-badge">30</div>
+                <div class="card-details">
+                  <h3>Compassionate Leave</h3><button class="btn-apply"
+                    onclick="openLeaveForm('Compassionate Leave')">Apply</button>
+                </div>
+              </div>
+              <div class="leave-card">
+                <div class="circle-badge">0</div>
+                <div class="card-details">
+                  <!-- <h3>Casual Leave</h3><button class="btn-apply" onclick="openLeaveForm('Casual Leave')">Apply</button> -->
+                  <h3>Casual Leave</h3> <button class="btn-apply" onclick="openLeaveForm('Casual Leave')" disabled>Not Available</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-arrow next" id="carousel-next" aria-label="Next"><i
+              class="fa-solid fa-chevron-right"></i></button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-header-tools">
+            <h3 class="table-title">Leave History</h3>
+            <div class="action-tools">
+              <button class="btn-filter"><i class="fa-solid fa-filter"></i></button>
+              <button class="btn-export">Export <i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table class="leave-table">
+              <thead>
+                <tr>
+                  <th>Name(s)</th>
+                  <th>Duration(s)</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Type</th>
+                  <th>Reason(s)</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leave-history-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ============ VIEW: APPLY FOR LEAVE FORM ============ -->
+    <main id="view-apply-leave" class="view-section hidden">
+      <div class="form-container">
+        <button class="btn-back" onclick="showLeaveDashboardView()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+        <div class="form-header">
+          <h2><i class="fa-solid fa-book"></i> Leave Application</h2>
+          <p id="form-subtitle">Fill the required fields below to apply for leave.</p>
+        </div>
+
+        <form id="leave-form">
+          <div class="form-group full-width">
+            <label>Leave Type</label>
+            <input type="text" id="leave-type-input" readonly>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="date" id="start-date" required>
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <input type="date" id="end-date" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Duration</label>
+              <input type="number" id="duration" value="60" required>
+            </div>
+            <div class="form-group">
+              <label>Resumption Date</label>
+              <input type="date" id="resumption-date">
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Reason for leave</label>
+            <textarea id="reason" rows="4"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Attach handover document (pdf, jpg, docx or any other format)</label>
+            <div class="file-upload-box">
+              <label for="file-input" class="file-btn">Choose File</label>
+              <input type="file" id="file-input" class="hidden-file-input">
+              <span id="file-chosen-name" class="file-chosen"></span>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Choose Relief Officer</label>
+            <select id="relief-officer" required>
+              <option value="" disabled selected>Select your relief officer</option>
+              <option value="Samson Dawit">Samson Dawit</option>
+              <option value="Biruk Dawit">Biruk Dawit</option>
+              <option value="Sarah Jenkins">Sarah Jenkins</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Submit</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- SUCCESS POPUP MODAL -->
+  <div id="success-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-icon"><i class="fa-solid fa-thumbs-up"></i></div>
+      <h2>Great Job!</h2>
+      <p>Your leave application would be reviewed by the admin.</p>
+      <button class="btn-close-modal" onclick="closeModalAndReturn()">Close</button>
+    </div>
+  </div>
+
+  <script src="/user_section/js/dashboaard2.js">
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR Management Platform - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="../user_section/css/dashboard.css"> -->
+  <style>
+    /* Base Styles & Color Variables */
+:root {
+  --bg-app: #e2ebf6;
+  --bg-card: #ffffff;
+  --primary-blue: #223f9a;
+  --accent-yellow: #ffc000;
+  --accent-green: #378215;
+  --btn-reset-border: #e02b2b;
+  --text-dark: #202020;
+  --text-muted: #666666;
+  --input-bg: #e8f0f8;
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-dark);
+  padding-bottom: 40px;
+}
+
+/* Navigation Header */
+.top-nav {
+  background-color: #ffffff;
+  height: 65px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.nav-center {
+  display: flex;
+  gap: 35px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 21px 0;
+  position: relative;
+}
+
+.nav-item.active {
+  font-weight: 600;
+}
+
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  right: -10px;
+  height: 3px;
+  background-color: var(--accent-yellow);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.icon-badge {
+  width: 36px;
+  height: 36px;
+  background-color: #223f9a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.icon-badge.green {
+  background-color: #2e7d32;
+}
+
+.icon-badge .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #d32f2f;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Layout Container */
+.container {
+  max-width: 1200px;
+  margin: 25px auto;
+  padding: 0 20px;
+}
+
+/* Breadcrumb Card */
+.breadcrumb-card {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 4px;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 25px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+/* View Section Control */
+.view-section.hidden {
+  display: none;
+}
+
+/* Cards Wrapper */
+.card-wrapper {
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 35px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 0.5fr;
+  gap: 20px;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.leave-card {
+  background-color: var(--primary-blue);
+  color: white;
+  border-radius: 12px;
+  padding: 25px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.circle-badge {
+  width: 75px;
+  height: 75px;
+  background-color: white;
+  color: #111;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.card-details h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.btn-apply {
+  background-color: var(--accent-yellow);
+  border: none;
+  border-radius: 20px;
+  padding: 6px 30px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-apply:hover {
+  opacity: 0.9;
+}
+
+/* Table Section */
+.table-header-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.table-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.action-tools {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-filter {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.btn-export {
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leave-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+
+.leave-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.leave-table td {
+  background-color: var(--input-bg);
+  padding: 16px;
+  font-size: 13.5px;
+  color: #222;
+}
+
+.leave-table tr td:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.leave-table tr td:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.btn-table-action {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form Styling */
+.form-container {
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 40px 100px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-header p {
+  color: #444;
+  font-size: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.form-group.full-width {
+  width: 100%;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background-color: var(--input-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 14px;
+  outline: none;
+  color: #333;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.file-upload-box {
+  background-color: var(--input-bg);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.file-btn {
+  background-color: #222;
+  color: white;
+  padding: 12px 24px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.file-chosen {
+  margin-left: 15px;
+  font-size: 13px;
+  color: #555;
+}
+
+.form-actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.btn-submit {
+  flex: 1;
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-reset {
+  flex: 1;
+  background-color: transparent;
+  color: #d32f2f;
+  border: 1px solid var(--btn-reset-border);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Overlay & Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(40, 50, 70, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  width: 420px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.modal-icon {
+  font-size: 80px;
+  color: #1a5cff;
+  margin-bottom: 15px;
+}
+
+.modal-card h2 {
+  color: #1a5cff;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.modal-card p {
+  color: #1a5cff;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 25px;
+  line-height: 1.4;
+}
+
+.btn-close-modal {
+  background-color: #1a5cff;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="nav-center">
+      <a href="dashboard.html" class="nav-item active">Dashboard</a>
+      <a href="request.html" class="nav-item">Requests</a>
+      <a href="payroll.html" class="nav-item">Payroll</a>
+      <a href="company.html" class="nav-item">Company</a>
+      <a href="extras.html" class="nav-item">Extras</a>
+    </div>
+    <div class="nav-right">
+      <div class="icon-badge">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="icon-badge green">
+        <i class="fa-regular fa-envelope"></i>
+        <span class="badge">13</span>
+      </div>
+      <div class="user-avatar">
+        <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace Wrapper -->
+  <div class="container">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-card" id="breadcrumb">
+      Dashboard &gt; Apply for Leave
+    </div>
+
+    <!-- MAIN VIEW: LEAVE DASHBOARD OVERVIEW -->
+    <main id="view-dashboard" class="view-section">
+      <div class="card-wrapper">
+        <h2 class="section-title"><i class="fa-solid fa-book"></i> Leave Application</h2>
+
+        <!-- Leave Cards Grid -->
+        <div class="cards-grid">
+          <div class="leave-card">
+            <div class="circle-badge">60</div>
+            <div class="card-details">
+              <h3>Annual Leave</h3>
+              <button class="btn-apply" onclick="openLeaveForm('Annual Leave')">Apply</button>
+            </div>
+          </div>
+
+          <div class="leave-card">
+            <div class="circle-badge">20</div>
+            <div class="card-details">
+              <h3>Sick Leave</h3>
+              <button class="btn-apply" onclick="openLeaveForm('Sick Leave')">Apply</button>
+            </div>
+          </div>
+
+          <div class="leave-card">
+            <div class="circle-badge">60</div>
+            <div class="card-details">
+              <h3>Maternity Leave</h3>
+              <button class="btn-apply" onclick="openLeaveForm('Maternity Leave')">Apply</button>
+            </div>
+          </div>
+
+          <div class="leave-card overflow-card">
+            <div class="circle-badge">30</div>
+            <div class="card-details">
+              <h3>Casual Leave</h3>
+              <button class="btn-apply" onclick="openLeaveForm('Casual Leave')">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leave History Table Section -->
+        <div class="table-container">
+          <div class="table-header-tools">
+            <h3 class="table-title">Leave History</h3>
+            <div class="action-tools">
+              <button class="btn-filter"><i class="fa-solid fa-filter"></i></button>
+              <button class="btn-export">
+                Export <i class="fa-solid fa-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+
+          <table class="leave-table">
+            <thead>
+              <tr>
+                <th>Name(s)</th>
+                <th>Duration(s)</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Type</th>
+                <th>Reason(s)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leave-history-body">
+              <!-- Dynamically populated from localStorage -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- FORM VIEW: APPLY FOR LEAVE -->
+    <main id="view-apply-leave" class="view-section hidden">
+      <div class="form-container">
+        <div class="form-header">
+          <h2><i class="fa-solid fa-book"></i> Leave Application</h2>
+          <p id="form-subtitle">Fill the required fields below to apply for leave.</p>
+        </div>
+
+        <form id="leave-form">
+          <div class="form-group full-width">
+            <label>Leave Type</label>
+            <input type="text" id="leave-type-input" readonly>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date</label>
+              <div class="input-icon">
+                <input type="date" id="start-date" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>End Date</label>
+              <div class="input-icon">
+                <input type="date" id="end-date" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Duration</label>
+              <input type="number" id="duration" value="60" required>
+            </div>
+            <div class="form-group">
+              <label>Resumption Date</label>
+              <div class="input-icon">
+                <input type="date" id="resumption-date">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Reason for leave</label>
+            <textarea id="reason" rows="4"></textarea>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Attach handover document (pdf, jpg, docx or any other format)</label>
+            <div class="file-upload-box">
+              <label for="file-input" class="file-btn">Choose File</label>
+              <input type="file" id="file-input" class="hidden-file-input">
+              <span id="file-chosen-name" class="file-chosen"></span>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label>Choose Relief Officer</label>
+            <select id="relief-officer" required>
+              <option value="" disabled selected>Select your relief officer</option>
+              <option value="Samson Dawit">Samson Dawit</option>
+              <option value="Biruk Dawit">Biruk Dawit</option>
+              <option value="Sarah Jenkins">Sarah Jenkins</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Submit</button>
+            <button type="button" class="btn-reset" onclick="resetForm()">Reset</button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- SUCCESS POPUP MODAL -->
+  <div id="success-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <i class="fa-solid fa-thumbs-up"></i>
+      </div>
+      <h2>Great Job!</h2>
+      <p>Your leave application would be reviewed by the admin.</p>
+      <button class="btn-close-modal" onclick="closeModalAndReturn()">Close</button>
+    </div>
+  </div>
+  <script>
+    // Initial Mock Data to seed localStorage if empty
+const defaultLeaveRecords = [
+  { id: 1, name: "Abenezer kebede", duration: 5, startDate: "22/04/2022", endDate: "28/04/2022", type: "Sick", reason: "Personal" },
+  { id: 2, name: "Abenezer kebede", duration: 7, startDate: "22/04/2022", endDate: "30/04/2022", type: "Exam", reason: "Examination" },
+  { id: 3, name: "Abenezer kebede", duration: 120, startDate: "22/04/2022", endDate: "28/06/2022", type: "Maternity", reason: "Child Care" },
+  { id: 4, name: "Abenezer kebede", duration: 5, startDate: "22/04/2022", endDate: "28/04/2022", type: "Sick", reason: "Personal" },
+  { id: 5, name: "Abenezer kebede", duration: 5, startDate: "22/04/2022", endDate: "28/04/2022", type: "Sick", reason: "Personal" },
+  { id: 6, name: "Abenezer kebede", duration: 5, startDate: "22/04/2022", endDate: "28/04/2022", type: "Sick", reason: "Personal" },
+  { id: 7, name: "Abenezer kebede", duration: 5, startDate: "22/04/2022", endDate: "28/04/2022", type: "Sick", reason: "Personal" }
+];
+
+// Initialize database
+function initDatabase() {
+  if (!localStorage.getItem("leaveRecords")) {
+    localStorage.setItem("leaveRecords", JSON.stringify(defaultLeaveRecords));
+  }
+}
+
+// Retrieve Records from LocalStorage
+function getRecords() {
+  return JSON.parse(localStorage.getItem("leaveRecords")) || [];
+}
+
+// Render Table Records
+function renderLeaveHistory() {
+  const tableBody = document.getElementById("leave-history-body");
+  const records = getRecords();
+
+  tableBody.innerHTML = "";
+
+  records.forEach(record => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${record.name}</td>
+      <td>${record.duration}</td>
+      <td>${record.startDate}</td>
+      <td>${record.endDate}</td>
+      <td>${record.type}</td>
+      <td>${record.reason}</td>
+      <td>
+        <button class="btn-table-action">
+          Actions <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+// Navigation View Handlers
+function openLeaveForm(leaveType) {
+  document.getElementById("view-dashboard").classList.add("hidden");
+  document.getElementById("view-apply-leave").classList.remove("hidden");
+  
+  // Dynamic header breadcrumb and form title update
+  document.getElementById("breadcrumb").innerText = `Dashboard > Apply for Leave > ${leaveType}`;
+  document.getElementById("leave-type-input").value = leaveType;
+  document.getElementById("form-subtitle").innerText = `Fill the required fields below to apply for ${leaveType.toLowerCase()}.`;
+}
+
+function showDashboardView() {
+  document.getElementById("view-apply-leave").classList.add("hidden");
+  document.getElementById("view-dashboard").classList.remove("hidden");
+  document.getElementById("breadcrumb").innerText = "Dashboard > Apply for Leave";
+  renderLeaveHistory();
+}
+
+// File Input Name Display Handler
+document.getElementById("file-input").addEventListener("change", function(e) {
+  const fileName = e.target.files[0] ? e.target.files[0].name : "";
+  document.getElementById("file-chosen-name").innerText = fileName;
+});
+
+// Form Reset Handler
+function resetForm() {
+  document.getElementById("leave-form").reset();
+  document.getElementById("file-chosen-name").innerText = "";
+}
+
+// Form Submission & LocalStorage Save
+document.getElementById("leave-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const type = document.getElementById("leave-type-input").value.replace(" Leave", "");
+  const startDate = document.getElementById("start-date").value;
+  const endDate = document.getElementById("end-date").value;
+  const duration = document.getElementById("duration").value;
+  const reason = document.getElementById("reason").value || "Personal";
+
+  // Format dates for table display
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const [y, m, d] = dateStr.split("-");
+    return `${d}/${m}/${y}`;
+  };
+
+  const newRecord = {
+    id: Date.now(),
+    name: "Biruk Dawit",
+    duration: duration,
+    startDate: formatDate(startDate),
+    endDate: formatDate(endDate),
+    type: type,
+    reason: reason
+  };
+
+  // Save to LocalStorage
+  const currentRecords = getRecords();
+  currentRecords.unshift(newRecord);
+  localStorage.setItem("leaveRecords", JSON.stringify(currentRecords));
+
+  // Show Modal Popup
+  document.getElementById("success-modal").classList.remove("hidden");
+});
+
+// Modal Actions
+function closeModalAndReturn() {
+  document.getElementById("success-modal").classList.add("hidden");
+  resetForm();
+  showDashboardView();
+}
+
+// Initialize Page
+document.addEventListener("DOMContentLoaded", () => {
+  initDatabase();
+  renderLeaveHistory();
+});
+  </script>
+  <!-- <script src="../user_section/js/dashboard.js"></script> -->
+</body>
+</html>
